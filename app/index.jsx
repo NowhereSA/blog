@@ -2,7 +2,6 @@ import { Feather } from "@expo/vector-icons";
 import { Stack, useNavigation } from "expo-router";
 import { useContext } from "react";
 import {
-  Button,
   FlatList,
   ScrollView,
   StyleSheet,
@@ -13,7 +12,7 @@ import {
 import { Context as BlogContext } from "../context/blogContext";
 
 const index = () => {
-  const { state, addBlogPost, deleteBlogPost } = useContext(BlogContext);
+  const { state, deleteBlogPost } = useContext(BlogContext);
   const navigation = useNavigation();
   return (
     <>
@@ -30,7 +29,6 @@ const index = () => {
         }}
       />
       <ScrollView>
-        <Button title="Add post" onPress={addBlogPost} />
         <FlatList
           data={state}
           // keyExtractor={(state) => state.title}
@@ -40,9 +38,7 @@ const index = () => {
                 onPress={() => navigation.navigate("show", { id: item.id })}
               >
                 <View style={style.row}>
-                  <Text style={style.title}>
-                    {item.title} - {item.id}
-                  </Text>
+                  <Text style={style.title}>{item.title}</Text>
                   <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
                     <Feather name="trash" size={24} />
                   </TouchableOpacity>
