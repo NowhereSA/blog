@@ -1,6 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { Stack, useNavigation } from "expo-router";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import {
   FlatList,
   ScrollView,
@@ -12,8 +12,19 @@ import {
 import { Context as BlogContext } from "../context/blogContext";
 
 const index = () => {
-  const { state, deleteBlogPost } = useContext(BlogContext);
+  const { state, deleteBlogPost, getBlogPost } = useContext(BlogContext);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    getBlogPost();
+    const listener = navigation.addListener("focus", () => {
+      getBlogPost();
+    });
+
+    return () => {
+      listener.remove();
+    };
+  }, []);
   return (
     <>
       <Stack.Screen
